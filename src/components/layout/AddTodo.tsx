@@ -26,16 +26,16 @@ const AddTodo = ({ addTodoHandler }: addTodoHandlerProps) => {
   };
 
   return (
-    <form onSubmit={(e) => submitHandler(e)}>
+    <form onSubmit={(e) => submitHandler(e)} className="sticky top-0 bg-gray-800 py-3">
       <div className="flex justify-center items-center gap-2 my-2">
         <Input
           type="text"
           placeholder="Write Task here..."
-          className="w-1/4"
+          className="w-1/4 text-white font-bold"
           value={task}
           onChange={(e) => setTask(e.target.value)}
         />
-        <Button type="submit">Add</Button>
+        <Button type="submit" className="bg-white text-black font-bold hover:bg-white">Add</Button>
       </div>
     </form>
   );

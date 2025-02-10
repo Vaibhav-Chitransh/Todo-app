@@ -1,6 +1,8 @@
-import { Pencil, Trash } from "lucide-react"
+import { Trash } from "lucide-react"
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
+import { EditTask } from "./EditTask"
+import { Checkbox } from "../ui/checkbox"
 
 type TodoListProps = {
     items: string[],
@@ -13,19 +15,18 @@ const TodoList : React.FC<TodoListProps> = ({items, setItems}) => {
         setItems(newTodo);
     }
 
-    const handleEdit = () => {
-        
-    }
-
   return (
-    <div className="border w-1/2 flex flex-col gap-2 justify-start items-center mx-auto my-10 p-4">
+    <div className="w-1/2 flex flex-col gap-2 justify-start items-center mx-auto my-10 p-4">
       {
         items.map((item, idx) => (
             <Card key={idx} className="w-full">
                 <CardHeader>
-                    <CardTitle>{item}</CardTitle>
+                    <div className="flex items-center gap-4">
+                      <Checkbox />
+                      <CardTitle className="w-full">{item}</CardTitle>
+                    </div>
                     <CardDescription>
-                        <Button size={'icon'} className="bg-green-600 hover:bg-green-500" onClick={() => handleEdit()}><Pencil className="cursor-pointer" /></Button>
+                        <EditTask todos={items} setTodos={setItems} item={item} idx={idx} />
                         <Button className="bg-red-600 hover:bg-red-500" size={'icon'} onClick={() => handleDelete(item)} ><Trash className="cursor-pointer" /></Button>
                     </CardDescription>
                 </CardHeader>

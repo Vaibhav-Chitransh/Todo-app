@@ -12,7 +12,9 @@ const App = () => {
   return (
     <div>
       <AddTodo addTodoHandler={addTodoHandler} />
-      <TodoList items={todos} setItems={setTodos} />
+      {
+        todos.length === 0 ? <div className='text-center mt-10 text-2xl font-bold'>No Tasks to display</div> : <TodoList items={todos} setItems={setTodos} />
+      }
     </div>
   )
 }
