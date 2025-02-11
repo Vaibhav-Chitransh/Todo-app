@@ -27,7 +27,7 @@ const AddTodo = ({ addTodoHandler }: addTodoHandlerProps) => {
   };
 
   return (
-    <div className="sticky top-0 bg-gray-800 py-3 relative">
+    <div className="sticky top-0 bg-gray-800 py-3">
       <form onSubmit={(e) => submitHandler(e)}>
       <div className="flex justify-center items-center gap-2 my-2">
         <Input
