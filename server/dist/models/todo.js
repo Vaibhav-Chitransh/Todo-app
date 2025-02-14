@@ -1,10 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Todo = void 0;
-class Todo {
-    constructor(id, text) {
-        this.id = id;
-        this.text = text;
+const mongoose_1 = __importDefault(require("mongoose"));
+const TodoSchema = new mongoose_1.default.Schema({
+    text: {
+        type: String,
+        required: true
+    },
+    completed: {
+        type: Boolean,
+        default: false
     }
-}
-exports.Todo = Todo;
+});
+exports.default = mongoose_1.default.model('Todo', TodoSchema);

@@ -1,5 +1,5 @@
 import express from 'express';
-import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import todoRoutes from './routes/todo';
 
@@ -7,14 +7,26 @@ dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+app.use(express.json());
 
-app.use(bodyParser.json());
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+    throw new Error('MONGO_URI is not defined in the environment variables');
+}
+
+mongoose.connect(mongoUri);
+
+const db = mongoose.connection;
+
+db.on('error', (err) => {
+    console.error(err);
+});
+  
+db.once('open', () => {
+    console.log('Connected to MongoDB');
+});
 
 app.use('/todos', todoRoutes);
-
-app.use((err : Error, req : express.Request, res : express.Response, next : express.NextFunction) => {
-    res.status(500).json({message: err.message});
-})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
