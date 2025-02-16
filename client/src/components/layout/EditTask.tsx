@@ -1,3 +1,4 @@
+import api from "@/api/api"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -13,21 +14,39 @@ import { Label } from "@/components/ui/label"
 import { Pencil } from "lucide-react"
 import { useState } from "react"
 
+interface Todo {
+  _id: string;
+  text: string;
+  completed: boolean;
+}
+
 type EditProps = {
-    todos: string[],
-    setTodos: (todos: string[]) => void,
-    item: string,
+    tasks: Todo[],
+    setTasks: (tasks: Todo[]) => void,
+    item: Todo,
     idx: number
 }
 
-export function EditTask({todos, setTodos, item, idx} : EditProps) {
-    const [newItem, setNewItem] = useState<string>(item);
+export function EditTask({tasks, setTasks, item, idx} : EditProps) {
+    const [newItem, setNewItem] = useState<Todo>({
+      _id: item._id,
+      text: item.text,
+      completed: item.completed
+    });
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const handleSubmit = () => {
-        setTodos([...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)]);
-        setIsOpen(false);
+    const handleSubmit = async () => {
+        try {
+          const response = await api.put(`/${newItem._id}`, {text: newItem.text, completed: newItem.completed});
+          setTasks(
+            tasks.map((task, index) =>
+              index === idx ? response.data : task
+            ));
+          setIsOpen(false);
+        } catch (error) {
+          console.error(error);
+        }
     }
 
   return (
@@ -47,7 +66,7 @@ export function EditTask({todos, setTodos, item, idx} : EditProps) {
             <Label htmlFor="task" className="text-right">
               Task
             </Label>
-            <Input id="task" value={newItem} className="col-span-3" placeholder="Write Task here..." onChange={(e) => setNewItem(e.target.value)} />
+            <Input id="task" value={newItem.text} className="col-span-3" placeholder="Write Task here..." onChange={(e) => setNewItem({...newItem, text: e.target.value})} />
           </div>
         </div>
         <DialogFooter>

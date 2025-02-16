@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import todoRoutes from './routes/todo';
+import cors from 'cors';
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,11 @@ db.on('error', (err) => {
 db.once('open', () => {
     console.log('Connected to MongoDB');
 });
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    optionsSuccessStatus: 200,
+}));
 
 app.use('/todos', todoRoutes);
 

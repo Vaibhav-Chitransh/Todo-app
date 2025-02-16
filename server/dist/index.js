@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const todo_1 = __importDefault(require("./routes/todo"));
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +24,10 @@ db.on('error', (err) => {
 db.once('open', () => {
     console.log('Connected to MongoDB');
 });
+app.use((0, cors_1.default)({
+    origin: 'http://localhost:5173',
+    optionsSuccessStatus: 200,
+}));
 app.use('/todos', todo_1.default);
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
