@@ -28,7 +28,7 @@ db.once('open', () => {
 });
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://todo-app-frontend-g5v6.onrender.com',
     optionsSuccessStatus: 200,
 }));
 
