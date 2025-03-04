@@ -16,6 +16,8 @@ const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
 
+  console.log(loading);
+
   useEffect(() => {
     api
       .get("/")
@@ -30,6 +32,7 @@ const TodoList = () => {
     api
       .delete(`/${item}`)
       .then((response) => {
+        console.log(response);
         setTodos(todos.filter((todo) => todo._id !== item));
       })
       .catch((error) => {
